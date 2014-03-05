@@ -12,6 +12,16 @@ namespace TeamAccount
         Sum = 1
     }
 
+    public enum PayEntryErrorFlag : int
+    {
+        NoError = 0x00,
+        TimeError = 0x01,
+        MoneyError = 0x02,
+        PayerError = 0x04,
+        AttendeeError = 0x08,
+        TypeError = 0x10
+    }
+
     public class PayEntry
     {
         #region class_members
@@ -23,7 +33,7 @@ namespace TeamAccount
         PayPerson _payer;
         PayPerson[] _members;
         PayType _type;
-
+        int _errorFlag = 0;
         #endregion
 
         #region constructor
@@ -37,6 +47,7 @@ namespace TeamAccount
             _payer = null;
             _members = null;
             _type = PayType.Normal;
+            _errorFlag = 0;
         }
 
         #endregion
@@ -85,11 +96,38 @@ namespace TeamAccount
             set { _type = value; }
         }
 
+        public int ErrorFlag
+        {
+            get { return ErrorFlag; }
+            set { _errorFlag = value; }
+        }
+
+        public void AddErrorFlag(PayEntryErrorFlag flag)
+        {
+            _errorFlag |= (int)flag;
+        }
+
+        public void RemoveErrorFlag(PayEntryErrorFlag flag)
+        {
+            _errorFlag &= (~((int)flag));
+        }
+
         #endregion
 
         public bool Validate()
         {
             return !(_payer == null || _members == null || _members.Length <= 0 || _money <= 0);
+        }
+
+        public void Copy(PayEntry entry)
+        {
+            _time = entry.Time;
+            _money = entry.Money;
+            _comment = entry.Comment;
+            _payer = entry.Payer;
+            _place = entry.Place;
+            _type = entry.Type;
+            _members = entry.Members;
         }
     }
 }

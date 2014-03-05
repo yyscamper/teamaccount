@@ -12,10 +12,20 @@ namespace TeamAccount
         double _expense = 0.0;
         long _attendCnt = 0;
         long _payCnt = 0;
+        double _paySum = 0.0;
+
+        int _index = 0;
+
 
         public PayPerson()
         {
 
+        }
+
+        public int Index
+        {
+            get { return _index; }
+            set { _index = value; }
         }
 
         public PayPerson(string name)
@@ -45,6 +55,20 @@ namespace TeamAccount
         {
             get { return _payCnt; }
             set { _payCnt = value; }
+        }
+
+        public double PaySum
+        {
+            get { return _paySum; }
+            set { _paySum = value; }
+        }
+
+        public void Reset()
+        {
+            _attendCnt = 0;
+            _expense = 0.0;
+            _payCnt = 0;
+            _paySum = 0.0;
         }
     }
 }
